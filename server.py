@@ -34,8 +34,10 @@ class Server:
                     c = Client(self.server.accept())
                     c.start()
                     self.threads.append(c)
+                    print "new client connected: ", c,
 
                 elif s == sys.stdin:
+                    print "junk"                    
                     # handle standard input
                     junk = sys.stdin.readline()
                     running = 0
@@ -45,6 +47,7 @@ class Server:
         self.server.close()
         for c in self.threads:
             c.join()
+        print "Server closed"
 
 class Client(threading.Thread):
     def __init__(self,(client,address)):
