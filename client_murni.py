@@ -1,19 +1,28 @@
 import socket
 import sys
 
-server_address = ('127.0.0.1', 5000)
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client_socket.connect(server_address)
+host = 'localhost'
+port = 5006
+size = 1024
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((host,port))
+sys.stdout.write('>>')
+contentlength = 0
+tab = "\t"
 
-sys.stdout.write('>> ')
-
-try:
-	while True:
-		message = sys.stdin.readline()    
-		client_socket.send(message)
-		sys.stdout.write(client_socket.recv(1024))
-		sys.stdout.write('>> ')
-
-except KeyboardInterrupt:
-	client_socket.close()
-	sys.exit(0)
+while 1:
+    line = sys.stdin.readline()
+    if line == '\n':
+        break
+    s.send(line)
+    data = s.recv(size)
+    print data
+    requestheader = line.split(" ")[0]
+    if requestheader.lower() == "get" and 'Content-Length' in data:
+        contentlength = int(data.split("Content-Length: ")[1].split("\r\n")[0])
+        datafile =s.recv(contentlength)
+        print datafile
+    sys.stdout.write('>>')
+s.close()
+ 
+    
