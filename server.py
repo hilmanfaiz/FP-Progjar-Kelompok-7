@@ -62,6 +62,53 @@ class Client(threading.Thread):
         self.header = ""
         self.data = ""
  
+    def do_GET_HEAD(self):
+        
+        ### SiteMap dengan DICTIONARY ###
+        # declare dictionary
+        sitemap = {}
+        
+        #fill dictionary
+        # 0 = masih ada
+        # 1 = uda ga ada / moved permanently
+        # 2 = forbidden
+        # 3 = internal server error
+        sitemap[self.pathdefault+'index.html'] = 1
+        sitemap[self.pathdefault+'home.html'] = 0
+        sitemap[self.pathdefault+'servererror.html'] = 3
+        sitemap[self.pathdefault] = 2
+        ### end ###
+        
+        #versi 3
+        #lokasi = os.path.dirname(os.path.abspath(__file__))
+        #print lokasi
+        #print
+        print self.path
+        try:
+            siteflag = sitemap[self.path]
+        
+        except KeyError:
+            print "404 Not Found"
+            self.client.send("404 Not Found\n")
+            return 404
+        
+        #print siteflag
+        
+        #'''
+        # jika file ada dan boleh diakses
+        if siteflag == 0 :
+            #print "file found"
+            self.sendHeader()
+            #print "header sent"
+            #print self.requestHeader
+            #'''
+            if self.requestHeader == "get" :
+                print "sending " + str(self.filesize) + " byte(s)..."
+                f = open(self.path, 'r')
+                self.data = f.read() 
+                f.close()
+                self.client.send(self.data)
+                
     def run(self):
         running = 1
         while running:
