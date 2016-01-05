@@ -108,7 +108,20 @@ class Client(threading.Thread):
                 self.data = f.read() 
                 f.close()
                 self.client.send(self.data)
-                
+                print "sending complete..."
+                '''
+                file = open(self.path,"r")
+                self.data = file.read(self.size)
+                while(self.data):
+                    self.client.send(self.data)
+                    self.data = file.read(self.size)
+                    #print self.data
+                    if self.data=='': 
+                        print "EOF"
+                        break
+                #self.client.send("\r\n\r\n")                    
+                file.close()
+                #'''
     def run(self):
         running = 1
         while running:
