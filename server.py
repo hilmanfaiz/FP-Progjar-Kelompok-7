@@ -107,6 +107,10 @@ class Client(threading.Thread):
                 #return 0
                 
                 #print ukuran
+            except IOError:
+                print "unknown error code: 1"
+                #return 1
+            #return 0
     
     def do_GET_HEAD(self):
         
