@@ -172,6 +172,20 @@ class Client(threading.Thread):
                 #self.client.send("\r\n\r\n")                    
                 file.close()
                 #'''
+        if siteflag == 1 :
+            print "301 Moved Permanently\n"
+            self.client.send("HTTP/1.1 301 Moved Permanently\nContent-Type: text/html;\r\n\r\n")
+            #return 301
+        # jika file tidak boleh diakses
+        if siteflag == 2 :
+            print "403 Forbidden\n"
+            self.client.send("HTTP/1.1 403 Forbidden\nContent-Type: text/html;\r\n\r\n")
+            #return 403
+        if siteflag == 3:
+            print "500 Internal Server Error\n"
+            self.client.send("HTTP/1.1 500 Internal Server Error\nContent-Type: text/html;\r\n\r\n")
+            #return 500
+        #'''
     def run(self):
         running = 1
         while running:
