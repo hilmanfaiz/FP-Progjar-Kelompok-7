@@ -87,6 +87,26 @@ class Client(threading.Thread):
                 
                 #self.client.send("Server: " + versipython + "\r\n") #btw server bukannya apache ya?
                 self.header += "Server: " + versipython + "\r\n"
+                #last modified
+                #self.filelastmod=time.strftime("%m/%d/%Y %I:%M:%S %p",time.localtime(os.path.getmtime(self.path)))
+                #self.header += "Last Modified: "+ str(self.filelastmod) + "\r\n"
+                
+                #self.client.send("Content-Length: " + str(filesize) + "\r\n")
+                self.header += "Content-Length: " + str(self.filesize) + "\r\n"
+                
+                if 'charset' in data:
+                    charset=data.split('charset=')[1].split('"')[0]
+                #self.client.send("Content-Type: text/html" + "; charset= " + charset +  "\r\n")
+                self.header += "Content-Type: text/html" + "; charset= " + charset +  "\r\n"
+                
+                #self.client.send("\r\n")
+                self.header += "\r\n"
+                
+                self.client.send(self.header)
+                print self.header
+                #return 0
+                
+                #print ukuran
     
     def do_GET_HEAD(self):
         
