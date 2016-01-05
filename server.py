@@ -186,6 +186,16 @@ class Client(threading.Thread):
             self.client.send("HTTP/1.1 500 Internal Server Error\nContent-Type: text/html;\r\n\r\n")
             #return 500
         #'''
+    
+    def do_POST(self):
+        #count=0
+        '''for arg in sys.argv:
+        	if arg == "-t":
+        		TITLE = sys.argv[count+1] # News header
+        	count+=1'''
+        mbois = "HTTP/1.1 200 OK\nContent-Type: text/html\r\n\r\n"
+        self.client.send(mbois)
+    
     def run(self):
         running = 1
         while running:
