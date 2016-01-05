@@ -221,7 +221,7 @@ class Client(threading.Thread):
                 elif(self.requestHeader == "post"):
                     self.path = self.pathdefault + reqfile
                     self.do_POST()
-           else:
+            else:
                 self.client.close()
                 running = 0
 
