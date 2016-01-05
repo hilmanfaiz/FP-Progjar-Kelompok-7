@@ -74,8 +74,18 @@ class Client(threading.Thread):
             
             
             if data:
-                self.client.send(data)
-            else:
+                self.requestHeader = ""
+                self.requestHeader = data.split(" ")[0]
+                str1 = self.requestHeader
+                self.requestHeader = str1.lower()
+                reqfile = data.split("/")[1].split("\n")[0]
+                if (self.requestHeader == "get" or self.requestHeader == "head" ):
+                    self.path = self.pathdefault + reqfile
+                    self.do_GET_HEAD()
+                elif(self.requestHeader == "post"):
+                    self.path = self.pathdefault + reqfile
+                    self.do_POST()
+           else:
                 self.client.close()
                 running = 0
 
