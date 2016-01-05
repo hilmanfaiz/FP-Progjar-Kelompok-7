@@ -61,7 +61,33 @@ class Client(threading.Thread):
         self.filesize = 0
         self.header = ""
         self.data = ""
- 
+    
+    def sendHeader(self):
+        ekstensi = self.path.split('.')[1]
+        #.split('\n')[0]
+        #print ekstensi
+        if (ekstensi == "html"):
+            #print "extensi == html" #debugging, monggo hapus
+            #print self.path
+            try:
+                file1 = open(self.path,"r")
+                data=file1.read()
+                file1.close()
+                #print data 
+                now = datetime.datetime.now() #tanggal sekarang
+                detilnow = now.strftime("%a, %d %b %Y %H:%M:%S")
+                versipython= '.'.join(str(i) for i in sys.version_info) #print versipython
+                self.filesize=os.path.getsize(self.path)
+                #self.client.send("HTTP/1.1 200 OK\r\n") #jek ngawur versi httpnya
+                self.header = ""
+                self.header += "HTTP/1.1 200 OK\r\n"
+                
+                #self.client.send("Date: " + detilnow + " GMT\r\n")
+                self.header += "Date: " + detilnow + " GMT\r\n"
+                
+                #self.client.send("Server: " + versipython + "\r\n") #btw server bukannya apache ya?
+                self.header += "Server: " + versipython + "\r\n"
+    
     def do_GET_HEAD(self):
         
         ### SiteMap dengan DICTIONARY ###
