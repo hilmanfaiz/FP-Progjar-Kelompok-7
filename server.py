@@ -55,12 +55,24 @@ class Client(threading.Thread):
         self.client = client
         self.address = address
         self.size = 1024
-
+        self.path = os.path.dirname(os.path.abspath(__file__))+'/halamanWeb/'
+        self.pathdefault = os.path.dirname(os.path.abspath(__file__))+'/halamanWeb/' #jangan diubah2 di bawah yaa
+        self.requestHeader = ""
+        self.filesize = 0
+        self.header = ""
+        self.data = ""
+ 
     def run(self):
         running = 1
         while running:
-            data = self.client.recv(self.size)
-            print 'recv: ', self.address, data
+            try:
+                data = self.client.recv(self.size)
+            except:
+                self.client.close()
+                running = 0                
+            print 'recv: ', self.address, data #debugging
+            
+            
             if data:
                 self.client.send(data)
             else:
